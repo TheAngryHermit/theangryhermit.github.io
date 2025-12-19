@@ -1,0 +1,176 @@
+/* Custom Font */
+@font-face {
+    font-family: 'MorePerfectDOSVGA';
+    src: url('../assets/fonts/MorePerfectDOSVGA.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'MorePerfectDOSVGA', monospace;
+    background-color: #000000;
+    color: #FFFF00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    font-size: 18px;
+}
+
+/* Boot Container */
+.boot-container {
+    width: 100%;
+    max-width: 650px;
+}
+
+/* Boot Menu - DOS Style Border */
+.boot-menu {
+    background-color: #0000AA;
+    color: #FFFF8px;
+    line-height: 1.8
+    line-height: 1.6;
+    
+    /* DOS 3D Border Effect */
+    border: 2px solid;
+    border-color: #AAAAAA #555555 #555555 #AAAAAA;
+    box-shadow: 
+        inset 1px 1px 0 #FFFFFF,
+        inset -1px -1px 0 #000000,
+        0 0 0 1px #000000;
+}
+
+/* Boot Header */
+.boot-header {
+    background-color: #00AAAA;
+    color: #000000;
+    padding: 4px 4px;
+    text-align: left;
+    border-bottom: 1px solid #000000;
+}
+
+.boot-header h1 {
+    font-size: 18px;
+    letter-spacing: 1px;
+    padding: 6px 8px;
+    margin: 0;
+    font-family: 'MorePerfectDOSVGA', monospace;
+    font-weight: normal;
+}
+
+/* Boot Divider */
+.boot-divider {
+    height: 1px;
+    background-color: #00AAAA;
+    border-top: 1px solid #000000;
+}
+
+/* Boot Content */
+.boot-content {
+    padding: 8px 4px;
+    background-color: #0000AA;
+    min-height: 200px;
+}
+
+/* Boot List */
+.boot-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.boot-item {
+    padding: 3px 8px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    background-color: #0000AA;
+    color: #FFFF00;
+}
+
+.boot-item .boot-label {
+    display: inline-block;
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+.boot-item.selected {
+    background-color: #00AAAA;
+    color: #000000;
+    font-weight: bold;
+}
+
+.boot-item.selected .boot-label::before {
+    content: '► ';
+    position: absolute;
+    left: 4px;
+    color: #000000;
+}
+
+/* Boot Footer */
+.boot-footer {
+    background-color: #0000AA;
+    padding: 6px 8px;
+    border-top: 1px solid #00AAAA;
+    font-size: 15px;
+    text-align: left;
+    line-height: 1.7;
+}
+
+.boot-footer p {
+    margin: 0;
+    letter-spacing: 0px;
+}
+
+/* Boot Status */
+.boot-status {
+    background-color: #0000AA;
+    padding: 6px 8px;
+    height: 26px;
+    border-top: 1px solid #00AAAA;
+    text-align: left;
+    font-size: 15px;
+    color: #00FF00;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    .boot-header h1 {
+        font-size: 16px;
+    }
+
+    .boot-content {
+        min-height: 150px;
+    }
+
+    .boot-item .boot-label {
+        font-size: 16px;
+    }
+
+    .boot-footer {
+        font-size: 13px;
+    }
+
+    .boot-status {
+        font-size: 13px;
+    }
+}

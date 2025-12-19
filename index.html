@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Angry Hermit - Boot Device Selector</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="boot-container">
+        <div class="boot-menu">
+            <div class="boot-header">
+                <h1>Please select project device:</h1>
+            </div>
+
+            <div class="boot-divider"></div>
+
+            <div class="boot-content">
+                <ul class="boot-list" id="bootList">
+                    <li class="boot-item selected" data-project="jsos" data-url="https://theangryhermit.github.io/jsos/">
+                        <span class="boot-label">Default - Boot OS</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="boot-divider"></div>
+
+            <div class="boot-footer">
+                <p>↑ and ↓ to move selection</p>
+                <p>ENTER to select project device</p>
+                <p>ESC to exit boot menu</p>
+            </div>
+
+            <div class="boot-status" id="bootStatus"></div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
