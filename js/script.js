@@ -1,19 +1,22 @@
-// Boot Menu Manager
+// "There is no place like 127.0.0.1" - Unknown
+// BOOT.SYS v1.0 - The Angry Hermit, 2025
+
 class BootMenu {
     constructor() {
-        this.bootList = document.getElementById('bootList');
         this.bootStatus = document.getElementById('bootStatus');
         this.bootLog = document.getElementById('bootLog');
         this.items = Array.from(document.querySelectorAll('.boot-item'));
-        this.currentIndex = this.items.findIndex((item) => item.classList.contains('selected'));
-        this.currentIndex = this.currentIndex >= 0 ? this.currentIndex : 0;
+        this.currentIndex = Math.max(0, this.items.findIndex(item => item.classList.contains('selected')));
         this.booting = false;
-
         this.init();
     }
 
     init() {
-        document.addEventListener('keydown', (e) => this.handleKeyPress(e));
+        const container = document.querySelector('.boot-container');
+        if (container) container.style.display = '';
+        
+        this.booting = false;
+        document.addEventListener('keydown', e => this.handleKeyPress(e));
         this.setStatus('System ready.');
     }
 
@@ -42,15 +45,7 @@ class BootMenu {
 
     moveSelection(direction) {
         this.items[this.currentIndex].classList.remove('selected');
-        this.currentIndex += direction;
-
-        // Wrap around
-        if (this.currentIndex < 0) {
-            this.currentIndex = this.items.length - 1;
-        } else if (this.currentIndex >= this.items.length) {
-            this.currentIndex = 0;
-        }
-
+        this.currentIndex = (this.currentIndex + direction + this.items.length) % this.items.length;
         this.items[this.currentIndex].classList.add('selected');
     }
 
@@ -62,6 +57,8 @@ class BootMenu {
 
         this.booting = true;
         this.setStatus(`Booting ${projectName}...`);
+        
+        // 640K ought to be enough for anybody
         const fillerPool = [
             'Loading device drivers...',
             'Calibrating flux capacitor...',
@@ -71,7 +68,8 @@ class BootMenu {
             'Spinning up hamster wheel...',
             'Untangling ethernet cables...',
             'Warming up CRT glow...',
-            'Patching memory leaks with duct tape...'
+            'Patching memory leaks with duct tape...',
+            'Reticulating splines...' // Easter egg: SimCity reference
         ];
 
         const jsosExtras = [
@@ -87,12 +85,9 @@ class BootMenu {
         const fillerMessages = this.pickRandomMessages(pool, messageCount);
 
         let elapsed = 0;
-        fillerMessages.forEach((message) => {
-            const delay = isJsos ? this.randomInRange(300, 700) : this.randomInRange(200, 600);
-            elapsed += delay;
-            setTimeout(() => {
-                this.setStatus(message);
-            }, elapsed);
+        fillerMessages.forEach(msg => {
+            elapsed += isJsos ? this.randomInRange(300, 700) : this.randomInRange(200, 600);
+            setTimeout(() => this.setStatus(msg), elapsed);
         });
 
         elapsed += isJsos ? this.randomInRange(450, 900) : this.randomInRange(350, 750);
@@ -116,11 +111,9 @@ class BootMenu {
         setTimeout(() => {
             if (projectUrl) {
                 this.setStatus(`Redirecting to ${projectUrl}`);
-                this.showBlackout(() => {
-                    window.location.href = projectUrl;
-                });
+                this.hideAndRedirect(() => window.location.href = projectUrl);
             } else {
-                this.setStatus(`Boot sequence complete for ${projectName} (no URL configured).`);
+                this.setStatus(`Boot complete (no URL configured)`);
                 alert(`Boot sequence complete!\n\nProject: ${projectName}\n\n(No URL configured)`);
                 this.booting = false;
             }
@@ -142,33 +135,19 @@ class BootMenu {
         this.bootStatus.textContent = `[${timestamp}] ${message}`;
     }
 
-    log(message) {
-        // Logging disabled; single status line only.
-        if (!this.bootLog) return;
-        this.bootLog.innerHTML = '';
+    hideAndRedirect(callback, duration = 600) {
+        const container = document.querySelector('.boot-container');
+        if (container) container.style.display = 'none';
+        setTimeout(callback, duration);
     }
 
     pickRandomMessages(list, count) {
-        const shuffled = [...list].sort(() => Math.random() - 0.5);
-        return shuffled.slice(0, Math.min(count, shuffled.length));
+        // Fisher-Yates would be proud (or horrified)
+        return [...list].sort(() => Math.random() - 0.5).slice(0, count);
     }
 
     randomInRange(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    showBlackout(callback, duration = 600) {
-        const overlay = document.createElement('div');
-        overlay.style.position = 'fixed';
-        overlay.style.inset = '0';
-        overlay.style.background = '#1a1a1a';
-        overlay.style.zIndex = '9999';
-        overlay.style.pointerEvents = 'none';
-        document.body.appendChild(overlay);
-
-        setTimeout(() => {
-            callback();
-        }, duration);
     }
 
     timestamp() {
@@ -176,7 +155,5 @@ class BootMenu {
     }
 }
 
-// Initialize boot menu when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    new BootMenu();
-});
+// "It works on my machine" ¯\_(ツ)_/¯
+document.addEventListener('DOMContentLoaded', () => new BootMenu());
