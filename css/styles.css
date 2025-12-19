@@ -37,8 +37,7 @@ body {
 /* Boot Menu - DOS Style Border */
 .boot-menu {
     background-color: #0000AA;
-    color: #FFFF8px;
-    line-height: 1.8
+    color: #FFFF00;
     line-height: 1.6;
     
     /* DOS 3D Border Effect */
